@@ -18,13 +18,22 @@ async function deltaSyncCustomer(customer) {
       })
     );
 
+    const currentTimeStamp = new Date().toISOString();
+
     // If not found → insert
     if (!existingData.Item) {
       console.log(`Inserting new record: ${customer.ListID}`);
+
+      const newCustomer = {
+        ...customer,
+        updatedAt: currentTimeStamp,
+        createdAt: currentTimeStamp,
+      }
+
       await dynamoClient.send(
         new PutItemCommand({
           TableName: 'Customer-Job',
-          Item: marshall(customer),
+          Item: marshall(newCustomer),
         })
       );
       return { id: customer.ListID, status: "inserted" };
@@ -44,6 +53,8 @@ async function deltaSyncCustomer(customer) {
 
     // If differences → update changed fields
     if (hasChanges) {
+      updateFields.updatedAt = currentTimeStamp
+
       const updateExpression = [];
       const expressionValues = {};
       const expressionNames = {};
@@ -88,13 +99,22 @@ async function deltaSyncEmployee(employee) {
       })
     );
 
+    const currentTimeStamp = new Date().toISOString();
+
     // Insert if new
     if (!existingData.Item) {
       console.log(`🆕 Inserting new employee: ${employee.Name}`);
+
+      const newEmployee = {
+        ...employee,
+        createdAt: currentTimeStamp,
+        updatedAt: currentTimeStamp
+      }
+
       await dynamoClient.send(
         new PutItemCommand({
           TableName: "Employees",
-          Item: marshall(employee),
+          Item: marshall(newEmployee),
         })
       );
       return { id: employee.ListID, status: "inserted" };
@@ -114,6 +134,8 @@ async function deltaSyncEmployee(employee) {
 
     // If there are changes → update
     if (hasChanges) {
+      updateFields.updatedAt = currentTimeStamp
+
       const updateExpression = [];
       const expressionValues = {};
       const expressionNames = {};
@@ -159,13 +181,21 @@ async function deltaSyncVendor(vendor) {
       })
     );
 
+    const currentTimeStamp = new Date().toISOString()
+
     // If vendor doesn’t exist → insert new
     if (!existingData.Item) {
       console.log(`Inserting new vendor: ${vendor.Name}`);
+
+      const newVendor = {
+        ...vendor,
+        createdAt: currentTimeStamp,
+        updatedAt: currentTimeStamp
+      }
       await dynamoClient.send(
         new PutItemCommand({
           TableName: "Vendors",
-          Item: marshall(vendor),
+          Item: marshall(newVendor),
         })
       );
       return { id: vendor.ListID, status: "inserted" };
@@ -185,6 +215,8 @@ async function deltaSyncVendor(vendor) {
 
     // If there are differences → update only changed fields
     if (hasChanges) {
+      updateFields.updatedAt = currentTimeStamp
+
       const updateExpression = [];
       const expressionValues = {};
       const expressionNames = {};
@@ -231,13 +263,21 @@ async function deltaSyncItem(item) {
       })
     );
 
+    const currentTimeStamp = new Date().toISOString()
+
     // If item does not exist → insert new record
     if (!existingData.Item) {
       console.log(`Inserting new item: ${item.Name} (${item.Type})`);
+
+      const newItem = {
+        ...item,
+        createdAt: currentTimeStamp,
+        updatedAt: currentTimeStamp
+      }
       await dynamoClient.send(
         new PutItemCommand({
           TableName: "Items",
-          Item: marshall(item),
+          Item: marshall(newItem),
         })
       );
       return { id: item.ListID, status: "inserted" };
@@ -257,6 +297,8 @@ async function deltaSyncItem(item) {
 
     // If differences found → update changed fields only
     if (hasChanges) {
+      updateFields.updatedAt = currentTimeStamp
+
       const updateExpression = [];
       const expressionValues = {};
       const expressionNames = {};
@@ -303,13 +345,22 @@ async function deltaSyncPriceLevel(priceLevel) {
       })
     );
 
+    const currentTimeStamp = new Date().toISOString()
+
     // Insert new if not found
     if (!existingData.Item) {
       console.log(`Inserting new Price Level: ${priceLevel.Name}`);
+
+      const newPriceLevel = {
+        ...priceLevel,
+        createdAt: currentTimeStamp,
+        updatedAt: currentTimeStamp
+      }
+
       await dynamoClient.send(
         new PutItemCommand({
           TableName: "PriceLevels",
-          Item: marshall(priceLevel),
+          Item: marshall(newPriceLevel),
         })
       );
       return { id: priceLevel.ListID, status: "inserted" };
@@ -329,6 +380,8 @@ async function deltaSyncPriceLevel(priceLevel) {
 
     // If there are changes → update only modified fields
     if (hasChanges) {
+      updateFields.updatedAt = currentTimeStamp
+      
       const updateExpression = [];
       const expressionValues = {};
       const expressionNames = {};
