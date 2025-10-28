@@ -19,8 +19,8 @@ const app = express();
 app.use(bodyParser.raw({ type: () => true, limit: "5mb" }));
 
 const qbQueriesTemplate = [
-  // { type: "Customer", xml: qbRequests.buildCustomerQuery() },
-  // { type: "Employee", xml: qbRequests.buildEmployeeQuery() },
+  { type: "Customer", xml: qbRequests.buildCustomerQuery() },
+  { type: "Employee", xml: qbRequests.buildEmployeeQuery() },
   { type: "Vendor", xml: qbRequests.buildVendorQuery() },
   { type: "Item", xml: qbRequests.buildItemQuery() },
   { type: "PriceLevel", xml: qbRequests.buildPriceLevelQuery() },
