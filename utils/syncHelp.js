@@ -13,7 +13,7 @@ async function deltaSyncCustomer(customer) {
     // Get existing record
     const existingData = await dynamoClient.send(
       new GetItemCommand({
-        TableName: 'Customer-Job',
+        TableName: process.env.DYNAMO_TABLE_CUSTOMER,
         Key: marshall(key),
       })
     );
@@ -32,7 +32,7 @@ async function deltaSyncCustomer(customer) {
 
       await dynamoClient.send(
         new PutItemCommand({
-          TableName: 'Customer-Job',
+          TableName: process.env.DYNAMO_TABLE_CUSTOMER,
           Item: marshall(newCustomer),
         })
       );
@@ -67,7 +67,7 @@ async function deltaSyncCustomer(customer) {
 
       await dynamoClient.send(
         new UpdateItemCommand({
-          TableName: 'Customer-Job',
+          TableName: process.env.DYNAMO_TABLE_CUSTOMER,
           Key: marshall({ ListID: customer.ListID }),
           UpdateExpression: `SET ${updateExpression.join(", ")}`,
           ExpressionAttributeNames: expressionNames,
@@ -94,7 +94,7 @@ async function deltaSyncEmployee(employee) {
     // Get existing record
     const existingData = await dynamoClient.send(
       new GetItemCommand({
-        TableName: "Employees",
+        TableName: process.env.DYNAMO_TABLE_EMPLOYEES,
         Key: marshall(key),
       })
     );
@@ -113,7 +113,7 @@ async function deltaSyncEmployee(employee) {
 
       await dynamoClient.send(
         new PutItemCommand({
-          TableName: "Employees",
+          TableName: process.env.DYNAMO_TABLE_EMPLOYEES,
           Item: marshall(newEmployee),
         })
       );
@@ -148,7 +148,7 @@ async function deltaSyncEmployee(employee) {
 
       await dynamoClient.send(
         new UpdateItemCommand({
-          TableName: "Employees",
+          TableName: process.env.DYNAMO_TABLE_EMPLOYEES,
           Key: marshall({ ListID: employee.ListID }),
           UpdateExpression: `SET ${updateExpression.join(", ")}`,
           ExpressionAttributeNames: expressionNames,
@@ -176,7 +176,7 @@ async function deltaSyncVendor(vendor) {
     // Fetch existing record from DynamoDB
     const existingData = await dynamoClient.send(
       new GetItemCommand({
-        TableName: "Vendors",
+        TableName: process.env.DYNAMO_TABLE_VENDORS,
         Key: marshall(key),
       })
     );
@@ -194,7 +194,7 @@ async function deltaSyncVendor(vendor) {
       }
       await dynamoClient.send(
         new PutItemCommand({
-          TableName: "Vendors",
+          TableName: process.env.DYNAMO_TABLE_VENDORS,
           Item: marshall(newVendor),
         })
       );
@@ -229,7 +229,7 @@ async function deltaSyncVendor(vendor) {
 
       await dynamoClient.send(
         new UpdateItemCommand({
-          TableName: "Vendors",
+          TableName: process.env.DYNAMO_TABLE_VENDORS,
           Key: marshall({ ListID: vendor.ListID }),
           UpdateExpression: `SET ${updateExpression.join(", ")}`,
           ExpressionAttributeNames: expressionNames,
@@ -258,7 +258,7 @@ async function deltaSyncItem(item) {
     // Fetch existing record from DynamoDB
     const existingData = await dynamoClient.send(
       new GetItemCommand({
-        TableName: "Items",
+        TableName: process.env.DYNAMO_TABLE_ITEMS,
         Key: marshall(key),
       })
     );
@@ -276,7 +276,7 @@ async function deltaSyncItem(item) {
       }
       await dynamoClient.send(
         new PutItemCommand({
-          TableName: "Items",
+          TableName: process.env.DYNAMO_TABLE_ITEMS,
           Item: marshall(newItem),
         })
       );
@@ -311,7 +311,7 @@ async function deltaSyncItem(item) {
 
       await dynamoClient.send(
         new UpdateItemCommand({
-          TableName: "Items",
+          TableName: process.env.DYNAMO_TABLE_ITEMS,
           Key: marshall({ ListID: item.ListID }),
           UpdateExpression: `SET ${updateExpression.join(", ")}`,
           ExpressionAttributeNames: expressionNames,
@@ -340,7 +340,7 @@ async function deltaSyncPriceLevel(priceLevel) {
     // Fetch existing record from DynamoDB
     const existingData = await dynamoClient.send(
       new GetItemCommand({
-        TableName: "PriceLevels",
+        TableName: process.env.DYNAMO_TABLE_PRICELEVELS,
         Key: marshall(key),
       })
     );
@@ -359,7 +359,7 @@ async function deltaSyncPriceLevel(priceLevel) {
 
       await dynamoClient.send(
         new PutItemCommand({
-          TableName: "PriceLevels",
+          TableName: process.env.DYNAMO_TABLE_PRICELEVELS,
           Item: marshall(newPriceLevel),
         })
       );
@@ -394,7 +394,7 @@ async function deltaSyncPriceLevel(priceLevel) {
 
       await dynamoClient.send(
         new UpdateItemCommand({
-          TableName: "PriceLevels",
+          TableName: process.env.DYNAMO_TABLE_PRICELEVELS,
           Key: marshall({ ListID: priceLevel.ListID }),
           UpdateExpression: `SET ${updateExpression.join(", ")}`,
           ExpressionAttributeNames: expressionNames,
